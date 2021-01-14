@@ -1,0 +1,49 @@
+version: '3.2'
+
+services:
+
+  frontend:
+    build: frontend
+    container_name: frontend
+    ports:
+      - 20080:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+
+  backend:
+    build: backend
+    container_name: backend
+    ports:
+      - 21081:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+
+  db:
+    image: mysql:latest
+    # Подключаем к общей сети с другими контейнерами
+    container_name: db
+    restart: unless-stopped
+
+    networks: 
+      - default
+    # Показываем наружу порт
+    ports:
+      - "3336:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=base
+    volumes:
+      - "./database:/var/lib/mysql"
+
+  #pgsql:
+  #  image: postgres:9.5
+  #  environment:
+  #    - POSTGRES_DB=yii2advanced
+  #    - POSTGRES_USER=yii2advanced
+  #    - POSTGRES_PASSWORD=secret
