@@ -7,7 +7,6 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\User */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Database', 'url' => ['/site/database']];
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -40,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
             'verification_token',
+            'incorrect_tries',
+            'blocked_to_date',
         ],
     ]) ?>
 

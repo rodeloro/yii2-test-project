@@ -26,13 +26,11 @@ services:
 
   db:
     image: mysql:latest
-    # Подключаем к общей сети с другими контейнерами
     container_name: db
     restart: unless-stopped
 
     networks: 
       - default
-    # Показываем наружу порт
     ports:
       - "3336:3306"
     environment:

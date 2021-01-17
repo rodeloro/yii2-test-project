@@ -8,7 +8,6 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Users';
-$this->params['breadcrumbs'][] = ['label' => 'Database', 'url' => ['/site/database']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -37,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'created_at',
             //'updated_at',
             //'verification_token',
+            //'incorrect_tries',
+            //'blocked_to_date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

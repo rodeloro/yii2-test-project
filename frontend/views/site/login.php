@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\captcha\Captcha;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,7 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
+                <p>
+                    <?php 
+                    if($model->use_captcha == true){ 
+                        echo  $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                            'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+                        ]);
+                    } 
+                    ?>
+                </p>
+
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
+
 
                 <div style="color:#999;margin:1em 0">
                     If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.

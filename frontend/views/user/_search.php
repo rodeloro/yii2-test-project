@@ -35,6 +35,10 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'verification_token') ?>
 
+    <?php // echo $form->field($model, 'incorrect_tries') ?>
+
+    <?php // echo $form->field($model, 'blocked_to_date') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
