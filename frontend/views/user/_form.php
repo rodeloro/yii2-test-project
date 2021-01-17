@@ -30,6 +30,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'verification_token')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'incorrect_tries')->textInput() ?>
+
+    <?= $form->field($model, 'blocked_to_date')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

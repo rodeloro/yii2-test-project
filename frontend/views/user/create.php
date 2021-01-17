@@ -6,7 +6,6 @@ use yii\helpers\Html;
 /* @var $model frontend\models\User */
 
 $this->title = 'Create User';
-$this->params['breadcrumbs'][] = ['label' => 'Database', 'url' => ['/site/database']];
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

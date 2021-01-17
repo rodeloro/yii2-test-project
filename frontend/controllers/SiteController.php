@@ -3,13 +3,13 @@ namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use frontend\models\AuthForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -85,16 +85,52 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        $userIp = Yii::$app->request->userIP;
+
+        $model = new AuthForm();
+        $model->load(Yii::$app->request->post());
+        $model->use_captcha = false;
+        $username = $model->username;
+
+        $user = User::find()
+        ->where(['username' => $username])
+        ->one();
+
+        if (!Yii::$app->user->isGuest)
+        {
             return $this->goHome();
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if($user != null&& $user->blocked_to_date!=null)
+        {
+            if($user->blocked_to_date >= $this->mTime())
+            {
+                Yii::$app->session->setFlash('error', 'User was blocked!' );
+                return $this->goHome();
+            }else{
+                $user->blocked_to_date = null;
+                $user->incorrect_tries = 3;
+                $user-> save();
+            }
+        }
+       
+        if ($model->load(Yii::$app->request->post()) && $model->login())
+        {
             return $this->goBack();
         } else {
+            if($model->username !=null){
+                if($user != null){ 
+                    if($user->incorrect_tries >= 2){
+                        $model->use_captcha = true;
+                    }
+                    if($user->incorrect_tries >= 9){
+                        $user->blocked_to_date = $this->mTime()+1800;
+                    }
+    
+                    $user->incorrect_tries = $user->incorrect_tries + 1;
+                    $user-> save();
+                } else Yii::$app->session->setFlash('error', 'User not found!' );
+            }
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -267,5 +303,12 @@ class SiteController extends Controller
         $users_count = User::find()->count();
 
         return $this->render('database',['users_count'=>$users_count]);
+    }
+
+    public function mTime()
+    {
+        $timeStampData = microtime();
+        list($msec, $sec) = explode(' ', $timeStampData);
+        return $sec;
     }
 }
