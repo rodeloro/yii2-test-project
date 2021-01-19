@@ -85,11 +85,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $userIp = Yii::$app->request->userIP;
+        //$userIp = Yii::$app->request->userIP;
 
         $model = new AuthForm();
         $model->load(Yii::$app->request->post());
-        $model->use_captcha = false;
         $username = $model->username;
 
         $user = User::find()
@@ -113,14 +112,19 @@ class SiteController extends Controller
             }
         }
        
-        if ($model->load(Yii::$app->request->post()) && $model->login())
+        if ($model->login())
         {
+            if($user != null){
+                $user->blocked_to_date = null;
+                $user->incorrect_tries = 0;
+                $user-> save();
+            }
             return $this->goBack();
         } else {
             if($model->username !=null){
                 if($user != null){ 
                     if($user->incorrect_tries >= 2){
-                        $model->use_captcha = true;
+                        $model->scenario = 'captchaRequired';
                     }
                     if($user->incorrect_tries >= 9){
                         $user->blocked_to_date = $this->mTime()+1800;
@@ -128,7 +132,7 @@ class SiteController extends Controller
     
                     $user->incorrect_tries = $user->incorrect_tries + 1;
                     $user-> save();
-                } else Yii::$app->session->setFlash('error', 'User not found!' );
+                } //else Yii::$app->session->setFlash('error', 'User not found!' );
             }
             $model->password = '';
             return $this->render('login', [

@@ -17,8 +17,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'incorrect_tries', 'blocked_to_date'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at', 'incorrect_tries', 'blocked_to_date', 'user_type', 'gender', 'date_of_birth'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'verification_token', 'first_name', 'second_name', 'surname'], 'safe'],
         ];
     }
 
@@ -64,6 +64,9 @@ class UserSearch extends User
             'updated_at' => $this->updated_at,
             'incorrect_tries' => $this->incorrect_tries,
             'blocked_to_date' => $this->blocked_to_date,
+            'user_type' => $this->user_type,
+            'gender' => $this->gender,
+            'date_of_birth' => $this->date_of_birth,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
@@ -71,7 +74,10 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'verification_token', $this->verification_token]);
+            ->andFilterWhere(['like', 'verification_token', $this->verification_token])
+            ->andFilterWhere(['like', 'first_name', $this->first_name])
+            ->andFilterWhere(['like', 'second_name', $this->second_name])
+            ->andFilterWhere(['like', 'surname', $this->surname]);
 
         return $dataProvider;
     }

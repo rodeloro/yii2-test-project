@@ -19,6 +19,12 @@ use Yii;
  * @property string|null $verification_token
  * @property int|null $incorrect_tries
  * @property int|null $blocked_to_date
+ * @property int|null $user_type
+ * @property string|null $first_name
+ * @property string|null $second_name
+ * @property string|null $surname
+ * @property int|null $gender
+ * @property int|null $date_of_birth
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -37,8 +43,8 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at', 'incorrect_tries', 'blocked_to_date'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'string', 'max' => 255],
+            [['status', 'created_at', 'updated_at', 'incorrect_tries', 'blocked_to_date', 'user_type', 'gender', 'date_of_birth'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email', 'verification_token', 'first_name', 'second_name', 'surname'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
@@ -64,6 +70,12 @@ class User extends \yii\db\ActiveRecord
             'verification_token' => 'Verification Token',
             'incorrect_tries' => 'Incorrect Tries',
             'blocked_to_date' => 'Blocked To Date',
+            'user_type' => 'User Type',
+            'first_name' => 'First Name',
+            'second_name' => 'Second Name',
+            'surname' => 'Surname',
+            'gender' => 'Gender',
+            'date_of_birth' => 'Date Of Birth',
         ];
     }
 }
