@@ -41,6 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'verification_token',
             'incorrect_tries',
             'blocked_to_date',
+            'user_type',
+            'first_name',
+            'second_name',
+            'surname',
+            'gender',
+            'date_of_birth',
         ],
     ]) ?>
 

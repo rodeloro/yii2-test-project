@@ -39,6 +39,18 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'blocked_to_date') ?>
 
+    <?php // echo $form->field($model, 'user_type') ?>
+
+    <?php // echo $form->field($model, 'first_name') ?>
+
+    <?php // echo $form->field($model, 'second_name') ?>
+
+    <?php // echo $form->field($model, 'surname') ?>
+
+    <?php // echo $form->field($model, 'gender') ?>
+
+    <?php // echo $form->field($model, 'date_of_birth') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>

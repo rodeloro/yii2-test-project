@@ -8,15 +8,11 @@ use common\models\LoginForm;
 class AuthForm extends LoginForm
 {
     public $verifyCode;
-    public $msg;
-    public $use_captcha;
 
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['verifyCode', 'captcha'];
-        $rules[] = ['msg', 'string'];
-        $rules[] = ['use_captcha','boolean'];
+        $rules[] = ['verifyCode', 'captcha', 'on'=>'captchaRequired'];
         return $rules;
     }
 
@@ -25,6 +21,5 @@ class AuthForm extends LoginForm
         return [
             'verifyCode' => 'Verification Code',
         ];
-    }
-
+    }   
 }

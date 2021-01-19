@@ -9,6 +9,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii2tech\spreadsheet\Spreadsheet;
+use yii\data\ArrayDataProvider;
+use yii\helpers\FileHelper;
+
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -73,6 +77,53 @@ class UserController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionExcel()
+    {
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $exporter = new Spreadsheet([
+            'dataProvider' => $dataProvider,
+           /* new ArrayDataProvider([
+                'allModels' => [
+                    [
+                        'name' => 'some name',
+                        'price' => '9879',
+                    ],
+                    [
+                        'name' => 'name 2',
+                        'price' => '79',
+                    ],
+                ],
+            ]),*/
+            'columns' => [
+                [
+                    'attribute' => 'username',
+                    'contentOptions' => [
+                        'alignment' => [
+                            'horizontal' => 'center',
+                            'vertical' => 'center',
+                        ],
+                    ],
+                ],
+                [
+                    'attribute' => 'auth_key',
+                ],
+                [
+                    'attribute' => 'password_hash',
+                ],
+                [
+                    'attribute' => 'email',
+                ],
+            ],
+        ]);
+        $exporter->save('./generated/xls/file.xls');
+        /*$dir = FileHelper::findFiles('./');
+
+        Yii::$app->session->setFlash('success',  $dir);*/
+        return $this->goBack();
     }
 
     /**

@@ -34,6 +34,18 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'blocked_to_date')->textInput() ?>
 
+    <?= $form->field($model, 'user_type')->textInput() ?>
+
+    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'second_name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'gender')->textInput() ?>
+
+    <?= $form->field($model, 'date_of_birth')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
